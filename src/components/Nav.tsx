@@ -1,8 +1,13 @@
-import { IoIosMenu } from "react-icons/io"
+import { IoIosMenu } from "react-icons/io";
 import { CgProfile } from "react-icons/cg";
 import { IoTicketSharp } from "react-icons/io5";
-import styled from "styled-components"
-import HeaderImage from '/nav-header.png'
+import styled from "styled-components";
+import '../fonts/fonts.css';
+import { MobileNavBar } from "./MobileNavBar";
+import { useSelector } from "react-redux";
+import { RootState } from "../app/store";
+import { useAppDispatch } from "../app/hooks";
+import { setMobileBarState, setNotYetLoaded } from "../features/NavBarSlice";
 
 const NavList = styled.ul`
     display: flex;
@@ -26,9 +31,10 @@ const NavMobileMenu = styled(IoIosMenu)`
     font-size: 4em;
     `
 const NavLeftSection = styled.li``
-const NavMiddleSection = styled.li``
-const NavHeaderImage = styled.img`
-    max-width: 75%;
+const NavMiddleSection = styled.li`
+    display: flex;
+    justify-content: center;
+    align-items: center;
     `
 const NavRightSection = styled.li``
 const NavRightSectionElements = styled.ul`
@@ -41,13 +47,33 @@ const NavRightSectionElements = styled.ul`
         margin-right: 15px;
     }
     `
+const NavHeaderText = styled.h1`
+    font-family: 'Graffiti';
+    font-size: 1.5em;
+    font-weight: normal;
+    `
 
+    
 export const Nav = () => {
+        const displayMobileNavBar = useSelector((state: RootState) => state.nav.mobileBarIsOpen);
+        const onFirstLoad = useSelector((state: RootState) => state.nav.notYetLoaded);
+        const dispatch = useAppDispatch();
+        
+        const handleNavMobileMenuClick = () => {
+            if (onFirstLoad) {
+                dispatch(setNotYetLoaded());
+            } else {
+                dispatch(setMobileBarState());
+            }
+        }
+
     return (
         <nav>
             <NavList>
-                <NavLeftSection><NavMobileMenu /></NavLeftSection>
-                <NavMiddleSection><NavHeaderImage src={HeaderImage} /></NavMiddleSection>
+                <NavLeftSection>
+                    <NavMobileMenu onClick={handleNavMobileMenuClick} />
+                </NavLeftSection>
+                <NavMiddleSection><NavHeaderText>vegoilraffles</NavHeaderText></NavMiddleSection>
                 <NavRightSection>
                     <NavRightSectionElements>
                         <li><CgProfile /></li>
@@ -55,6 +81,7 @@ export const Nav = () => {
                     </NavRightSectionElements>
                 </NavRightSection>
             </NavList>
+            <MobileNavBar />
         </nav>
     )
 }
