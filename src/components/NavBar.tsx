@@ -10,7 +10,6 @@ import { useAppDispatch } from "../app/hooks";
 import { setMobileBarState, setNotYetLoaded } from "../features/NavBarSlice";
 import device from '../config/device-sizes.json';
 import { NavPages } from "./NavPages";
-import { useEffect } from "react";
 
 const NavList = styled.ul`
     display: flex;
@@ -32,12 +31,12 @@ const NavList = styled.ul`
     & > :not(:last-child) {
         margin-right: 10px;
     }
-    @media ${device.tablet.landscape.mediaQuery}, ${device.mobile.landscape.mediaQuery} {
+    @media ${device.tablet.landscape.mediaQuery} {
         height: 50px;
     }
     `
 const NavMobileMenu = styled(IoIosMenu)`
-    font-size: clamp(0.1rem, 7.5vw, 48px);
+    font-size: clamp(0.1em, 7.5vw, 48px);
     `
 const NavLeftSection = styled.li`
     height: 100%;
@@ -65,7 +64,7 @@ const NavRightSectionElements = styled.ul`
     justify-content: right;
     align-items: center;
     height: 100%;
-    margin-right: 10px;
+    margin-right: 15px;
     & > li {
         display: flex;
         justify-content: center;
@@ -79,12 +78,16 @@ const NavRightSectionElements = styled.ul`
         margin-right: 10px;
     }
     & * {
-        font-size: clamp(0.1rem, 5vw, 36px);
+        font-size: clamp(0.1em, 5vw, 36px);
     }
+    & li:first-child {
+        @media ${device.mobile.portrait.mediaQuery} {
+            display: none;
+        }
     `
 const NavHeaderText = styled.h1`
     font-family: 'Graffiti';
-    font-size: clamp(0.1rem, 7.5vw, 3rem);
+    font-size: clamp(0.1em, 7.5vw, 3em);
     font-weight: normal;
     width: 100%;
     text-align: center;
@@ -94,7 +97,7 @@ const NavPageStyles = {
         margin-left: -35px;
         `,
     NavPage: `
-        font-size: 1.25rem;
+        font-size: 1.25em;
         `,
     NavPageContainer: `
         display: flex;
@@ -132,7 +135,8 @@ export const NavBar = () => {
                 <NavMiddleSection><NavHeaderText>vegoilraffles</NavHeaderText></NavMiddleSection>
                 <NavRightSection>
                     <NavRightSectionElements>
-                        <li><p>Your Profile &nbsp;</p><CgProfile /></li>
+                        <li><p>Profile</p></li>
+                        <li><CgProfile /></li>
                         <li><FaShoppingBasket /></li>
                     </NavRightSectionElements>
                 </NavRightSection>
