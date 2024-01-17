@@ -8,7 +8,7 @@ import { NavPages } from "./NavPages";
 
 interface MobileNavBarContainerProps {
     animationType: 'SlideIn' | 'SlideOut' | null;
-    }
+}
 
 const SlideIn = keyframes`
     from {
@@ -76,6 +76,22 @@ const ClickToExitSection = styled.div.withConfig({
         }
     }}
     `
+const MobileNavPageStyles = {
+    MainList: `
+        width: 100%;
+        margin: 10px 10px;
+        line-height: 300%;
+        font-size: 1.5em;
+        text-align: center;
+        `,
+    NavPage: `
+        font-family: Roboto, sand-serif;
+        letter-spacing: 3px;
+        `,
+    Divider: `
+        opacity: 0.1;
+        `
+}
 
 export const MobileNavBar = () => {
     const dispatch = useAppDispatch();
@@ -101,7 +117,7 @@ export const MobileNavBar = () => {
     return (
         <>
             <MobileNavBarContainer animationType={animationType}>
-                <NavPages />
+                <NavPages styleFromParent={MobileNavPageStyles} isDesktop={false} />
             </MobileNavBarContainer>
             <ClickToExitSection onClick={clickToExit} animationType={animationType}></ClickToExitSection>
         </>
