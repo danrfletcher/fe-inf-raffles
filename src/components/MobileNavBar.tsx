@@ -3,10 +3,13 @@ import { useSelector } from "react-redux";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
 import { RootState } from "../app/store";
 import { setMobileBarState } from "../features/NavBarSlice";
+import { getNavPages } from "../services/get-nav-pages";
+import { NavPages } from "./NavPages";
 
 interface MobileNavBarContainerProps {
     animationType: 'SlideIn' | 'SlideOut' | null;
     }
+
 const SlideIn = keyframes`
     from {
         transform: translateX(-80vw);
@@ -25,7 +28,11 @@ const SlideOut = keyframes`
         transform: translateX(-80vw);
     }
     `
-const MobileNavBarContainer = styled.div<MobileNavBarContainerProps>`
+const MobileNavBarContainer = styled.div.withConfig({
+    shouldForwardProp: (prop) => 
+      !['animationType'].includes(prop),
+  })<MobileNavBarContainerProps>`
+    min-height: 100vh;
     top: 0;
     left: 0;    
     position: absolute;
@@ -47,7 +54,10 @@ const MobileNavBarContainer = styled.div<MobileNavBarContainerProps>`
         }
       }};
     `
-const ClickToExitSection = styled.div<MobileNavBarContainerProps>`
+const ClickToExitSection = styled.div.withConfig({
+    shouldForwardProp: (prop) => 
+      !['animationType'].includes(prop),
+  })<MobileNavBarContainerProps>`
     opacity: 0;
     position: absolute;
     top: 0;
@@ -86,13 +96,12 @@ export const MobileNavBar = () => {
 
     const clickToExit = () => {
         dispatch(setMobileBarState());
-        console.log(nowOpen);
     }
 
     return (
         <>
             <MobileNavBarContainer animationType={animationType}>
-                This is the mobile nav bar
+                <NavPages />
             </MobileNavBarContainer>
             <ClickToExitSection onClick={clickToExit} animationType={animationType}></ClickToExitSection>
         </>
