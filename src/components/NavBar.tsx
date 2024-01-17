@@ -1,6 +1,6 @@
 import { IoIosMenu } from "react-icons/io";
+import { FaShoppingBasket } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import { IoTicketSharp } from "react-icons/io5";
 import styled from "styled-components";
 import '../fonts/fonts.css';
 import { MobileNavBar } from "./MobileNavBar";
@@ -10,7 +10,6 @@ import { useAppDispatch } from "../app/hooks";
 import { setMobileBarState, setNotYetLoaded } from "../features/NavBarSlice";
 import device from '../config/device-sizes.json';
 import { NavPages } from "./NavPages";
-import { useEffect } from "react";
 
 const NavList = styled.ul`
     display: flex;
@@ -32,7 +31,7 @@ const NavList = styled.ul`
     & > :not(:last-child) {
         margin-right: 10px;
     }
-    @media ${device.tablet.landscape.mediaQuery}, ${device.mobile.landscape.mediaQuery} {
+    @media ${device.tablet.landscape.mediaQuery} {
         height: 50px;
     }
     `
@@ -65,19 +64,26 @@ const NavRightSectionElements = styled.ul`
     justify-content: right;
     align-items: center;
     height: 100%;
-    margin-right: 10px;
+    margin-right: 15px;
     & > li {
         display: flex;
         justify-content: center;
         align-items: center;
         font-size: 7.5vw;
     }
+    & > li > p {
+        font-size: 1.25rem;
+    }
     & > :not(:last-child) {
         margin-right: 10px;
     }
-    & > li > * {
+    & * {
         font-size: clamp(0.1em, 5vw, 36px);
     }
+    & li:first-child {
+        @media ${device.mobile.portrait.mediaQuery} {
+            display: none;
+        }
     `
 const NavHeaderText = styled.h1`
     font-family: 'Graffiti';
@@ -91,7 +97,6 @@ const NavPageStyles = {
         margin-left: -35px;
         `,
     NavPage: `
-        font-family: var(--primary-font);
         font-size: 1.25em;
         `,
     NavPageContainer: `
@@ -130,8 +135,9 @@ export const NavBar = () => {
                 <NavMiddleSection><NavHeaderText>vegoilraffles</NavHeaderText></NavMiddleSection>
                 <NavRightSection>
                     <NavRightSectionElements>
+                        <li><p>Profile</p></li>
                         <li><CgProfile /></li>
-                        <li><IoTicketSharp /></li>
+                        <li><FaShoppingBasket /></li>
                     </NavRightSectionElements>
                 </NavRightSection>
             </NavList>
