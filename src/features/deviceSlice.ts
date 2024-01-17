@@ -6,11 +6,13 @@ export type orientation = "portrait" | "landscape";
 interface DeviceState {
     type: deviceType,
     orientation: orientation
+    isDesktop: boolean
 }
 
 const initialState: DeviceState = {
     type: "mobile",
-    orientation: "portrait"
+    orientation: "portrait",
+    isDesktop: false
 }
 
 const deviceSlice = createSlice({
@@ -23,9 +25,12 @@ const deviceSlice = createSlice({
         setOrientation: (state, action: PayloadAction<orientation>) => {
             state.orientation = action.payload;
         },
-    },
+        setIsDesktop: (state, action: PayloadAction<boolean>) => {
+            state.isDesktop = action.payload;
+        },
+    }
 });
 
-export const { setDevice, setOrientation } = deviceSlice.actions;
+export const { setDevice, setOrientation, setIsDesktop } = deviceSlice.actions;
 
 export default deviceSlice.reducer;

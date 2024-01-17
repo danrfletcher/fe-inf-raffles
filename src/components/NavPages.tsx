@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { NavPagesObject } from "../services/get-nav-pages"
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../app/store";
 import { fetchNavPages, setMobileBarState } from "../features/NavBarSlice";
@@ -9,7 +8,7 @@ import { RxCross1 } from "react-icons/rx";
 interface NavPageStyles {
     MainList: string,
     NavPage: string,
-    Divider?: string,
+    DividerMobileOnly?: string,
     NavPageContainer: string,
 }
 
@@ -17,7 +16,7 @@ interface NavPageItemProps {
     customStyle?: string,
 }
 
-const MainList = styled.ul.withConfig({
+const MainList = styled.div.withConfig({
     shouldForwardProp: (prop) => 
       !['customStyle'].includes(prop),
   })<NavPageItemProps>`
@@ -29,34 +28,35 @@ const NavPage = styled.li.withConfig({
   })<NavPageItemProps>`
     ${props => props.customStyle || ''}
     `
-const Divider = styled.hr.withConfig({
+const DividerMobileOnly = styled.hr.withConfig({
     shouldForwardProp: (prop) => 
       !['customStyle'].includes(prop),
   })<NavPageItemProps>`
     ${props => props.customStyle || ''}
     `
-const MobileCloseIcon = styled(RxCross1)`
+const CloseIconMobileOnly = styled(RxCross1)`
     font-size: 1.5em;
     `
-const MobileNavFooter = styled.div`
+const NavFooterMobileOnly = styled.div`
   margin-top: 10px;
     width: 100%;
     height: 10%;
     bottom: 0;
     & * {
-        font-family: Roboto, sand-serif;
+        font-family: var(--primary-font);
         color: grey;
         line-height: 1.5em;
     }
     `
-const NavPageContainer = styled.div.withConfig({
+const NavPageContainer = styled.ul.withConfig({
     shouldForwardProp: (prop) => 
       !['customStyle'].includes(prop),
   })<NavPageItemProps>`
     ${props => props.customStyle || ''}
     `
 
-export const NavPages= ({ styleFromParent, isDesktop }: { styleFromParent: NavPageStyles, isDesktop: boolean }) => {
+export const NavPages= ({ styleFromParent}: { styleFromParent: NavPageStyles}) => {
+    const isDesktop = useSelector((state: RootState) => state.device.isDesktop);
     const pages = useSelector((state: RootState) => state.nav.navPages);
     const dispatchAsync = useDispatch<AppDispatch>();
     const dispatch = useDispatch();
@@ -72,17 +72,21 @@ export const NavPages= ({ styleFromParent, isDesktop }: { styleFromParent: NavPa
     return (
         <MainList customStyle={styleFromParent.MainList}>
             <NavPageContainer customStyle={styleFromParent.NavPageContainer}>
-                {isDesktop ? null : <MobileCloseIcon onClick={handleMenuClose} />}
+                {isDesktop ? null : (
+                    <li key="close-icon">
+                        <CloseIconMobileOnly onClick={handleMenuClose} />
+                    </li>
+                )}
                 {pages ? pages.navPages.map((page, index) => (
                     <NavPage customStyle={styleFromParent.NavPage} key={index}>{page.name}</NavPage>
                 )) : null}
             </NavPageContainer>
             {isDesktop ? null : (
                 <>
-                    <Divider customStyle={styleFromParent?.Divider}></Divider>
-                    <MobileNavFooter>
+                    <DividerMobileOnly customStyle={styleFromParent?.DividerMobileOnly}></DividerMobileOnly>
+                    <NavFooterMobileOnly>
                         <p>© Scottyfairno 2024</p>
-                    </MobileNavFooter>
+                    </NavFooterMobileOnly>
                 </>
             )}
         </MainList>

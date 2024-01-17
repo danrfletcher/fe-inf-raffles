@@ -9,8 +9,8 @@ import { RootState } from "../app/store";
 import { useAppDispatch } from "../app/hooks";
 import { setMobileBarState, setNotYetLoaded } from "../features/NavBarSlice";
 import device from '../config/device-sizes.json';
-import { Container, Nav, Navbar } from 'react-bootstrap';
-import { useState } from "react";
+import { NavPages } from "./NavPages";
+import { useEffect } from "react";
 
 const NavList = styled.ul`
     display: flex;
@@ -86,24 +86,46 @@ const NavHeaderText = styled.h1`
     width: 100%;
     text-align: center;
     `
+const NavPageStyles = {
+    MainList: `
+        margin-left: -35px;
+        `,
+    NavPage: `
+        font-family: var(--primary-font);
+        font-size: 1.25em;
+        `,
+    NavPageContainer: `
+        display: flex;
+        margin-left: 50px;
+        list-style: none;
+        & > :not(:last-child) {
+            margin-right: 25px;
+        }
+        `
+}
 
 export const NavBar = () => {
-        const onFirstLoad = useSelector((state: RootState) => state.nav.notYetLoaded);
-        const dispatch = useAppDispatch();
-        
-        const handleNavMobileMenuClick = () => {
-            if (onFirstLoad) {
-                dispatch(setNotYetLoaded());
-            } else {
-                dispatch(setMobileBarState());
-            }
+    const isDesktop = useSelector((state: RootState) => state.device.isDesktop);
+    const onFirstLoad = useSelector((state: RootState) => state.nav.notYetLoaded);
+    const dispatch = useAppDispatch();
+    
+    const handleNavMobileMenuClick = () => {
+        if (onFirstLoad) {
+            dispatch(setNotYetLoaded());
+        } else {
+            dispatch(setMobileBarState());
         }
+    }
 
     return (
         <nav>
             <NavList>
                 <NavLeftSection>
-                    <NavMobileMenu onClick={handleNavMobileMenuClick} />
+                    {isDesktop ? (
+                        <NavPages styleFromParent={NavPageStyles} />
+                    ) : (
+                        <NavMobileMenu onClick={handleNavMobileMenuClick} />
+                    )}
                 </NavLeftSection>
                 <NavMiddleSection><NavHeaderText>vegoilraffles</NavHeaderText></NavMiddleSection>
                 <NavRightSection>
@@ -113,7 +135,7 @@ export const NavBar = () => {
                     </NavRightSectionElements>
                 </NavRightSection>
             </NavList>
-            <MobileNavBar />
+            {isDesktop ? null : <MobileNavBar />}
         </nav>
     )
 }

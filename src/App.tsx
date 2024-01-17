@@ -1,10 +1,10 @@
 import './App.css';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Home } from './pages/Home';
-import { NavBar } from './components/Navbar';
+import { NavBar } from './components/NavBar';
 import device from './config/device-sizes.json';
 import { useDispatch, useSelector } from 'react-redux';
-import { deviceType, orientation, setDevice, setOrientation } from './features/deviceSlice';
+import { deviceType, orientation, setDevice, setIsDesktop, setOrientation } from './features/deviceSlice';
 import { useEffect } from 'react';
 import { RootState } from './app/store';
 
@@ -39,16 +39,26 @@ function App() {
   const getDeviceParams = (): void => {
     const orientation = detectOrientation();
     const deviceType = getDeviceByOrientation(orientation);
+    let isDesktop = false;
+    if (deviceType === 'desktop') {
+      isDesktop = true;
+    }
+
     dispatch(setDevice(deviceType));
     dispatch(setOrientation(orientation));
+    dispatch(setIsDesktop(isDesktop));
   };
 
-  useEffect(() => {
+  useEffect(() => { //Update Redux device state when window is resized.
     window.addEventListener('resize', getDeviceParams);
     return () => {
       window.removeEventListener('resize', getDeviceParams);
     }
   }, [dispatch])
+
+  useEffect(() => { //Initialize Redux device state on first load.
+    getDeviceParams()
+  }, [])
 
   return (
     <BrowserRouter>

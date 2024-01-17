@@ -1,10 +1,10 @@
 import styled, { keyframes, css } from "styled-components";
 import { useSelector } from "react-redux";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useAppDispatch } from "../app/hooks";
 import { RootState } from "../app/store";
 import { setMobileBarState } from "../features/NavBarSlice";
-import { getNavPages } from "../services/get-nav-pages";
 import { NavPages } from "./NavPages";
+import device from '../config/device-sizes.json';
 
 interface MobileNavBarContainerProps {
     animationType: 'SlideIn' | 'SlideOut' | null;
@@ -53,12 +53,17 @@ const MobileNavBarContainer = styled.div.withConfig({
               return 'none';
         }
       }};
+    @media ${device.tablet.portrait.mediaQuery} {
+        width: 50vw;
+    };
+    @media ${device.mobile.landscape.mediaQuery}, ${device.tablet.landscape.mediaQuery} {
+        width: 30vw;
+    }
     `
 const ClickToExitSection = styled.div.withConfig({
     shouldForwardProp: (prop) => 
       !['animationType'].includes(prop),
   })<MobileNavBarContainerProps>`
-    opacity: 0;
     position: absolute;
     top: 0;
     left: 80vw;
@@ -74,7 +79,15 @@ const ClickToExitSection = styled.div.withConfig({
             default:
               return 'none';
         }
-    }}
+    }};
+    @media ${device.tablet.portrait.mediaQuery} {
+        left: 50vw;
+        width: 50vw;
+    };
+    @media ${device.mobile.landscape.mediaQuery}, ${device.tablet.landscape.mediaQuery} {
+        left: 30vw;
+        width: 70vw;
+    }
     `
 const MobileNavPageStyles = {
     MainList: `
@@ -83,18 +96,18 @@ const MobileNavPageStyles = {
         line-height: 300%;
         font-size: 1em;
         text-align: left;
-        list-style: none;
         `,
     NavPage: `
-        font-family: Roboto, sand-serif;
+        font-family: var(--primary-font);
         letter-spacing: 1px;
         line-height: 3em;
         `,
-    Divider: `
+    DividerMobileOnly: `
         opacity: 1;
         `,
     NavPageContainer: `
-        height: 90%
+        height: 90%;
+        list-style: none;
         `
 }
 
@@ -122,7 +135,7 @@ export const MobileNavBar = () => {
     return (
         <>
             <MobileNavBarContainer animationType={animationType}>
-                <NavPages styleFromParent={MobileNavPageStyles} isDesktop={false} />
+                <NavPages styleFromParent={MobileNavPageStyles} />
             </MobileNavBarContainer>
             <ClickToExitSection onClick={clickToExit} animationType={animationType}></ClickToExitSection>
         </>
