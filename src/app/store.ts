@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
 import navReducer from '../features/NavBarSlice.ts';
+import deviceReducer from '../features/deviceSlice.ts';
 
 export const store = configureStore({
 	reducer: {
         nav: navReducer,
+		device: deviceReducer,
 	},
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware({
