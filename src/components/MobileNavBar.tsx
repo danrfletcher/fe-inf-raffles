@@ -79,17 +79,22 @@ const ClickToExitSection = styled.div.withConfig({
 const MobileNavPageStyles = {
     MainList: `
         width: 100%;
-        margin: 10px 10px;
+        margin: 15px 25px;
         line-height: 300%;
-        font-size: 1.5em;
-        text-align: center;
+        font-size: 1em;
+        text-align: left;
+        list-style: none;
         `,
     NavPage: `
         font-family: Roboto, sand-serif;
-        letter-spacing: 3px;
+        letter-spacing: 1px;
+        line-height: 3em;
         `,
     Divider: `
-        opacity: 0.1;
+        opacity: 1;
+        `,
+    NavPageContainer: `
+        height: 90%
         `
 }
 
