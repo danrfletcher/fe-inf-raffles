@@ -5,9 +5,11 @@ import { RootState } from "../app/store";
 import { setMobileBarState } from "../features/NavBarSlice";
 import { NavPages } from "./NavPages";
 import device from '../config/device-sizes.json';
+import { useEffect, useState } from "react";
 
 interface MobileNavBarContainerProps {
     animationType: 'SlideIn' | 'SlideOut' | null;
+    dynamicHeight?: number;
 }
 
 const SlideIn = keyframes`
@@ -32,14 +34,13 @@ const MobileNavBarContainer = styled.div.withConfig({
     shouldForwardProp: (prop) => 
       !['animationType'].includes(prop),
   })<MobileNavBarContainerProps>`
-    min-height: 100vh;
     top: 0;
     left: 0;    
     position: absolute;
     z-index: 1;
     display: flex;
     width: 80vw;
-    height: 100vh;
+    height: 100dvh;
     background-color: #1f1f1f;
     color: #ffffff;
     transform: translateX(-80vw);
