@@ -1,1 +1,5 @@
 @import url('./fonts/fonts.css');
+
+:root {
+    --primary-font: Roboto, Arial, Helvetica, sans-serif;
+}
