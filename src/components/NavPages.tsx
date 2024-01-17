@@ -43,7 +43,6 @@ const NavFooterMobileOnly = styled.div`
     height: 10%;
     bottom: 0;
     & * {
-        font-family: var(--primary-font);
         color: grey;
         line-height: 1.5em;
     }

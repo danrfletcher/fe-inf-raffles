@@ -98,7 +98,6 @@ const MobileNavPageStyles = {
         text-align: left;
         `,
     NavPage: `
-        font-family: var(--primary-font);
         letter-spacing: 1px;
         line-height: 3em;
         `,
