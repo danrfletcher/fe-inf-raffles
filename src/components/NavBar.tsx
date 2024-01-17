@@ -9,6 +9,8 @@ import { RootState } from "../app/store";
 import { useAppDispatch } from "../app/hooks";
 import { setMobileBarState, setNotYetLoaded } from "../features/NavBarSlice";
 import device from '../config/device-sizes.json';
+import { NavPages } from "./NavPages";
+import { useEffect } from "react";
 
 const NavList = styled.ul`
     display: flex;
@@ -30,7 +32,7 @@ const NavList = styled.ul`
     & > :not(:last-child) {
         margin-right: 10px;
     }
-    @media ${device.tablet.landscape}, ${device.mobile.landscape} {
+    @media ${device.tablet.landscape.mediaQuery}, ${device.mobile.landscape.mediaQuery} {
         height: 50px;
     }
     `
@@ -84,24 +86,46 @@ const NavHeaderText = styled.h1`
     width: 100%;
     text-align: center;
     `
-
-export const Nav = () => {
-        const onFirstLoad = useSelector((state: RootState) => state.nav.notYetLoaded);
-        const dispatch = useAppDispatch();
-        
-        const handleNavMobileMenuClick = () => {
-            if (onFirstLoad) {
-                dispatch(setNotYetLoaded());
-            } else {
-                dispatch(setMobileBarState());
-            }
+const NavPageStyles = {
+    MainList: `
+        margin-left: -35px;
+        `,
+    NavPage: `
+        font-family: var(--primary-font);
+        font-size: 1.25em;
+        `,
+    NavPageContainer: `
+        display: flex;
+        margin-left: 50px;
+        list-style: none;
+        & > :not(:last-child) {
+            margin-right: 25px;
         }
+        `
+}
+
+export const NavBar = () => {
+    const isDesktop = useSelector((state: RootState) => state.device.isDesktop);
+    const onFirstLoad = useSelector((state: RootState) => state.nav.notYetLoaded);
+    const dispatch = useAppDispatch();
+    
+    const handleNavMobileMenuClick = () => {
+        if (onFirstLoad) {
+            dispatch(setNotYetLoaded());
+        } else {
+            dispatch(setMobileBarState());
+        }
+    }
 
     return (
         <nav>
             <NavList>
                 <NavLeftSection>
-                    <NavMobileMenu onClick={handleNavMobileMenuClick} />
+                    {isDesktop ? (
+                        <NavPages styleFromParent={NavPageStyles} />
+                    ) : (
+                        <NavMobileMenu onClick={handleNavMobileMenuClick} />
+                    )}
                 </NavLeftSection>
                 <NavMiddleSection><NavHeaderText>vegoilraffles</NavHeaderText></NavMiddleSection>
                 <NavRightSection>
@@ -111,7 +135,7 @@ export const Nav = () => {
                     </NavRightSectionElements>
                 </NavRightSection>
             </NavList>
-            <MobileNavBar />
+            {isDesktop ? null : <MobileNavBar />}
         </nav>
     )
 }

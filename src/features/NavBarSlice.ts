@@ -56,6 +56,6 @@ const navSlice = createSlice({
   }
 })
 
-export const { setMobileBarState, setNotYetLoaded } = navSlice.actions
+export const { setMobileBarState, setNotYetLoaded } = navSlice.actions;
 
-export default navSlice.reducer
+export default navSlice.reducer;
