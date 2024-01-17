@@ -1,0 +1,19 @@
+{
+    "navPages": [
+        {
+            "name": "Raffles",
+            "path": "/raffles",
+            "children": []
+        },
+        {
+            "name": "Help",
+            "path": "/help",
+            "children": []
+        },
+        {
+            "name": "Winners",
+            "path": "/winners",
+            "children": []
+        }
+    ]
+}
