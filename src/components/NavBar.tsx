@@ -1,6 +1,6 @@
 import { IoIosMenu } from "react-icons/io";
+import { FaShoppingBasket } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
-import { IoTicketSharp } from "react-icons/io5";
 import styled from "styled-components";
 import '../fonts/fonts.css';
 import { MobileNavBar } from "./MobileNavBar";
@@ -37,7 +37,7 @@ const NavList = styled.ul`
     }
     `
 const NavMobileMenu = styled(IoIosMenu)`
-    font-size: clamp(0.1em, 7.5vw, 48px);
+    font-size: clamp(0.1rem, 7.5vw, 48px);
     `
 const NavLeftSection = styled.li`
     height: 100%;
@@ -72,16 +72,19 @@ const NavRightSectionElements = styled.ul`
         align-items: center;
         font-size: 7.5vw;
     }
+    & > li > p {
+        font-size: 1.25rem;
+    }
     & > :not(:last-child) {
         margin-right: 10px;
     }
-    & > li > * {
-        font-size: clamp(0.1em, 5vw, 36px);
+    & * {
+        font-size: clamp(0.1rem, 5vw, 36px);
     }
     `
 const NavHeaderText = styled.h1`
     font-family: 'Graffiti';
-    font-size: clamp(0.1em, 7.5vw, 3em);
+    font-size: clamp(0.1rem, 7.5vw, 3rem);
     font-weight: normal;
     width: 100%;
     text-align: center;
@@ -91,8 +94,7 @@ const NavPageStyles = {
         margin-left: -35px;
         `,
     NavPage: `
-        font-family: var(--primary-font);
-        font-size: 1.25em;
+        font-size: 1.25rem;
         `,
     NavPageContainer: `
         display: flex;
@@ -130,8 +132,8 @@ export const NavBar = () => {
                 <NavMiddleSection><NavHeaderText>vegoilraffles</NavHeaderText></NavMiddleSection>
                 <NavRightSection>
                     <NavRightSectionElements>
-                        <li><CgProfile /></li>
-                        <li><IoTicketSharp /></li>
+                        <li><p>Your Profile &nbsp;</p><CgProfile /></li>
+                        <li><FaShoppingBasket /></li>
                     </NavRightSectionElements>
                 </NavRightSection>
             </NavList>
