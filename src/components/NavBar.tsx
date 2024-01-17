@@ -9,6 +9,8 @@ import { RootState } from "../app/store";
 import { useAppDispatch } from "../app/hooks";
 import { setMobileBarState, setNotYetLoaded } from "../features/NavBarSlice";
 import device from '../config/device-sizes.json';
+import { Container, Nav, Navbar } from 'react-bootstrap';
+import { useState } from "react";
 
 const NavList = styled.ul`
     display: flex;
@@ -30,7 +32,7 @@ const NavList = styled.ul`
     & > :not(:last-child) {
         margin-right: 10px;
     }
-    @media ${device.tablet.landscape}, ${device.mobile.landscape} {
+    @media ${device.tablet.landscape.mediaQuery}, ${device.mobile.landscape.mediaQuery} {
         height: 50px;
     }
     `
@@ -85,7 +87,7 @@ const NavHeaderText = styled.h1`
     text-align: center;
     `
 
-export const Nav = () => {
+export const NavBar = () => {
         const onFirstLoad = useSelector((state: RootState) => state.nav.notYetLoaded);
         const dispatch = useAppDispatch();
         
